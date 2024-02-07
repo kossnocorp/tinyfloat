@@ -23,7 +23,7 @@ describe("TinyFloat", () => {
     );
   });
 
-  it("allows to specify presicion", () => {
+  it("allows to specify precision", () => {
     expect(new TinyFloat("0.123456789", 5).toNumber()).toBe(0.12345);
     expect(new TinyFloat("0.123456789", 3).toNumber()).toBe(0.123);
     expect(new TinyFloat("0.0001234", 4).toNumber()).toBe(0.0001);
@@ -96,7 +96,7 @@ describe("TinyFloat", () => {
       );
     });
 
-    it("uses the presicion of the first number", () => {
+    it("uses the precision of the first number", () => {
       expect(
         new TinyFloat("0.123456789", 1)
           .add(new TinyFloat("0.123456789"))
@@ -128,7 +128,7 @@ describe("TinyFloat", () => {
       );
     });
 
-    it("uses the presicion of the first number", () => {
+    it("uses the precision of the first number", () => {
       expect(
         new TinyFloat("0.123456789", 1).sub(new TinyFloat("0.19")).toNumber()
       ).toBe(0);
@@ -160,7 +160,7 @@ describe("TinyFloat", () => {
       );
     });
 
-    it("uses the presicion of the first number", () => {
+    it("uses the precision of the first number", () => {
       expect(
         new TinyFloat("0.123456789", 3)
           .mul(new TinyFloat("0.123456789"))
@@ -185,7 +185,7 @@ describe("TinyFloat", () => {
       );
     });
 
-    it("uses the presicion of the first number", () => {
+    it("uses the precision of the first number", () => {
       expect(
         new TinyFloat("0.123456789", 3)
           .div(new TinyFloat("0.123456789"))
@@ -217,7 +217,7 @@ describe("TinyFloat", () => {
       expect(new TinyFloat("6").mod(new TinyFloat("3")).toNumber()).toBe(0);
     });
 
-    it("uses the presicion of the first number", () => {
+    it("uses the precision of the first number", () => {
       expect(
         new TinyFloat("0.123456789", 3)
           .mod(new TinyFloat("0.123456789"))
@@ -232,7 +232,7 @@ describe("TinyFloat", () => {
   });
 
   describe("withPresicion", () => {
-    it("changes the presicion", () => {
+    it("changes the precision", () => {
       expect(new TinyFloat("0.123456789", 5).withPresicion(3).toNumber()).toBe(
         0.123
       );
