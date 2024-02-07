@@ -1,0 +1,26 @@
+{
+  "name": "tinyfloat",
+  "version": "0.1.0",
+  "description": "A tiny arbitrary-precision decimal type for JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kossnocorp/tinyfloat.git"
+  },
+  "keywords": [
+    "decimal",
+    "float"
+  ],
+  "author": "Sasha Koss <koss@nocorp.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kossnocorp/tinyfloat/issues"
+  },
+  "homepage": "https://github.com/kossnocorp/tinyfloat#readme",
+  "devDependencies": {
+    "vitest": "^1.2.2"
+  }
+}
