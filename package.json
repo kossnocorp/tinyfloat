@@ -2,7 +2,23 @@
   "name": "tinyfloat",
   "version": "0.1.0",
   "description": "A tiny arbitrary-precision decimal type for JavaScript",
-  "main": "index.js",
+  "sideEffects": false,
+  "browser": "./index",
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "require": {
+        "types": "./index.d.ts",
+        "default": "./index.js"
+      },
+      "import": {
+        "types": "./index.d.mts",
+        "default": "./index.mjs"
+      }
+    }
+  },
   "scripts": {
     "test": "vitest run"
   },
@@ -21,6 +37,12 @@
   },
   "homepage": "https://github.com/kossnocorp/tinyfloat#readme",
   "devDependencies": {
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.23.9",
+    "@babel/plugin-transform-modules-commonjs": "^7.23.3",
+    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-typescript": "^7.23.3",
+    "babel-plugin-add-import-extension": "^1.6.0",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2"
   }
