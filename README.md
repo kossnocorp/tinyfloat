@@ -16,13 +16,50 @@ npm install tinyfloat --save
 
 ## Usage
 
-The library exports the `TinyFloat` class, which you can use to create instances of decimal numbers:
+The library exports the `TinyFloat` class, which you can use to create decimal numbers:
 
 ```ts
 import { TinyFloat } from "tinyfloat";
 
-const a = new TinyFloat(0.1);
+new TinyFloat("0.1").add("0.2").toNumber();
+//=> 0.3
 ```
+
+You can also set the precision for the `TinyFloat` instance:
+
+```ts
+new TinyFloat("0.123456", 2).toNumber();
+//=> 0.12
+
+new TinyFloat("0.987654321", 2).toNumber();
+//=> 0.99
+```
+
+## API
+
+The `TinyFloat` class has basic arithmetic methods:
+
+- `add` - adds two numbers
+- `sub` - subtracts two numbers
+- `mul` - multiplies two numbers
+- `div` - divides two numbers
+- `mod` - returns the remainder of the division
+
+To convert a `TinyFloat` instance to a number, use the `toNumber` method:
+
+```ts
+new TinyFloat("0.1").add("0.2").toNumber();
+//=> 0.3
+```
+
+To convert the `TinyFloat` instance to a string, use the `toString` method:
+
+```ts
+new TinyFloat("0.1").add("0.2").toString();
+//=> "0.3000000000000000"
+```
+
+The method pads the number with zeros to the set precision (default is 16).
 
 ## Changelog
 
