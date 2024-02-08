@@ -56,6 +56,7 @@ describe("TinyFloat", () => {
     expect(new TinyFloat("0.12345678901234563").toNumber()).toBe(
       0.1234567890123456
     );
+    expect(new TinyFloat("9.9", 0).toNumber()).toBe(10);
   });
 
   it("has default precision corresponding to the number behavior", () => {
