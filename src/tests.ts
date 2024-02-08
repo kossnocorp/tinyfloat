@@ -38,6 +38,19 @@ describe("TinyFloat", () => {
     ).toBe(9876543210.123456789);
   });
 
+  it("accepts number", () => {
+    expect(new TinyFloat(new TinyFloat(0)).toNumber()).toBe(0);
+    expect(new TinyFloat(new TinyFloat(1)).toNumber()).toBe(1);
+    expect(new TinyFloat(new TinyFloat(12345678901234567890)).toNumber()).toBe(
+      12345678901234567890
+    );
+    expect(new TinyFloat(new TinyFloat(0.1)).toNumber()).toBe(0.1);
+    expect(new TinyFloat(new TinyFloat(10.001234)).toNumber()).toBe(10.001234);
+    expect(new TinyFloat(new TinyFloat(9876543210.123456789)).toNumber()).toBe(
+      9876543210.123456789
+    );
+  });
+
   it("rounds numbers", () => {
     expect(new TinyFloat("0.987654321", 0).toNumber()).toBe(1.0);
     expect(new TinyFloat("0.987654321", 1).toNumber()).toBe(1.0);
@@ -188,6 +201,11 @@ describe("TinyFloat", () => {
       expect(new TinyFloat("0.1").add("0.2").toNumber()).toBe(0.3);
       expect(new TinyFloat("-0.1").add("0.2").toNumber()).toBe(0.1);
     });
+
+    it("allows to pass a number", () => {
+      expect(new TinyFloat(0.1).add(0.2).toNumber()).toBe(0.3);
+      expect(new TinyFloat(-0.1).add(0.2).toNumber()).toBe(0.1);
+    });
   });
 
   describe("sub", () => {
@@ -220,6 +238,11 @@ describe("TinyFloat", () => {
     it("allows to pass a number as a string", () => {
       expect(new TinyFloat("0.1").sub("0.2").toNumber()).toBe(-0.1);
       expect(new TinyFloat("-0.1").sub("0.2").toNumber()).toBe(-0.3);
+    });
+
+    it("allows to pass a number", () => {
+      expect(new TinyFloat(0.1).sub(0.2).toNumber()).toBe(-0.1);
+      expect(new TinyFloat(-0.1).sub(0.2).toNumber()).toBe(-0.3);
     });
   });
 
@@ -257,6 +280,11 @@ describe("TinyFloat", () => {
       expect(new TinyFloat("6").mul("2").toNumber()).toBe(12);
       expect(new TinyFloat("0.6").mul("0.2").toNumber()).toBe(0.12);
     });
+
+    it("allows to pass a number", () => {
+      expect(new TinyFloat(6).mul(2).toNumber()).toBe(12);
+      expect(new TinyFloat(0.6).mul(0.2).toNumber()).toBe(0.12);
+    });
   });
 
   describe("div", () => {
@@ -286,6 +314,11 @@ describe("TinyFloat", () => {
     it("allows to pass a number as a string", () => {
       expect(new TinyFloat("6").div("2").toNumber()).toBe(3);
       expect(new TinyFloat("0.6").div("0.2").toNumber()).toBe(3);
+    });
+
+    it("allows to pass a number", () => {
+      expect(new TinyFloat(6).div(2).toNumber()).toBe(3);
+      expect(new TinyFloat(0.6).div(0.2).toNumber()).toBe(3);
     });
   });
 
@@ -323,6 +356,11 @@ describe("TinyFloat", () => {
     it("allows to pass a number as a string", () => {
       expect(new TinyFloat("6").mod("2").toNumber()).toBe(0);
       expect(new TinyFloat("6.6").mod("2").toNumber()).toBe(0.6);
+    });
+
+    it("allows to pass a number", () => {
+      expect(new TinyFloat(6).mod(2).toNumber()).toBe(0);
+      expect(new TinyFloat(6.6).mod(2).toNumber()).toBe(0.6);
     });
   });
 

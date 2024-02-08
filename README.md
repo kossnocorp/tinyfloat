@@ -45,12 +45,14 @@ The `TinyFloat` class has basic arithmetic methods:
 - `div` - divides two numbers
 - `mod` - returns the remainder of the division
 
-All methods accept both strings and TinyFloat instances:
+All methods accept strings, numbers, and TinyFloat instances:
 
 ```ts
 new TinyFloat("0.1").add(new TinyFloat("0.2")).toNumber();
 // Or pass a string:
 new TinyFloat("0.1").add("0.2").toNumber();
+// Or a number:
+new TinyFloat(0.1).add(0.2).toNumber();
 ```
 
 To convert a `TinyFloat` instance to a number, use the `toNumber` method:

@@ -31,7 +31,7 @@ export class TinyFloat {
    * @param tf - The number to create
    * @param precision - The number of digits after decimal point to keep
    */
-  constructor(tf?: string | TinyFloat, precision?: number) {
+  constructor(tf?: TinyFloat | string | number, precision?: number) {
     if (tf instanceof TinyFloat) {
       this.precision = tf.precision;
       this.int = tf.int;
@@ -91,7 +91,7 @@ export class TinyFloat {
    *
    * @returns Sum of the two numbers
    */
-  add(tf: TinyFloat | string): TinyFloat {
+  add(tf: TinyFloat | string | number): TinyFloat {
     return TinyFloat.fromBigInt(this.int + this.argument(tf), this.precision);
   }
 
@@ -102,7 +102,7 @@ export class TinyFloat {
    *
    * @returns Difference of the two numbers
    */
-  sub(tf: TinyFloat | string): TinyFloat {
+  sub(tf: TinyFloat | string | number): TinyFloat {
     return TinyFloat.fromBigInt(this.int - this.argument(tf), this.precision);
   }
 
@@ -113,7 +113,7 @@ export class TinyFloat {
    *
    * @returns Product of the two numbers
    */
-  mul(tf: TinyFloat | string): TinyFloat {
+  mul(tf: TinyFloat | string | number): TinyFloat {
     return TinyFloat.fromBigInt(
       (this.int * this.argument(tf)) / BigInt(10 ** (this.precision + 1)),
       this.precision
@@ -127,7 +127,7 @@ export class TinyFloat {
    *
    * @returns Quotient of the two numbers
    */
-  div(tf: TinyFloat | string): TinyFloat {
+  div(tf: TinyFloat | string | number): TinyFloat {
     return TinyFloat.fromBigInt(
       (this.int * BigInt(10 ** (this.precision + 1))) / this.argument(tf),
       this.precision
@@ -141,7 +141,7 @@ export class TinyFloat {
    *
    * @returns The remainder of the division
    */
-  mod(tf: TinyFloat | string): TinyFloat {
+  mod(tf: TinyFloat | string | number): TinyFloat {
     return TinyFloat.fromBigInt(this.int % this.argument(tf), this.precision);
   }
 
@@ -179,7 +179,7 @@ export class TinyFloat {
    *
    * @private
    */
-  private argument(tf: TinyFloat | string): bigint {
+  private argument(tf: TinyFloat | string | number): bigint {
     return tf instanceof TinyFloat
       ? tf.withPresicion(this.precision).int
       : TinyFloat.parse(tf, this.precision);
@@ -208,7 +208,8 @@ export class TinyFloat {
    *
    * @private
    */
-  private static parse(str: string, precision: number): bigint {
+  private static parse(num: string | number, precision: number): bigint {
+    const str = num.toString();
     const digits = precision + 1;
     const point = str.indexOf(".");
     if (point === -1) {
