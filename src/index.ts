@@ -9,8 +9,8 @@ export class TinyFloat {
   /**
    * The default precision.
    */
-
   static defaultPrecision = 16;
+
   /**
    * The BigInt representation of the number. It's multiplied by 10^precision.
    *
