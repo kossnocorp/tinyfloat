@@ -23,6 +23,21 @@ describe("TinyFloat", () => {
     );
   });
 
+  it("accepts tiny float", () => {
+    expect(new TinyFloat(new TinyFloat("0")).toNumber()).toBe(0);
+    expect(new TinyFloat(new TinyFloat("1")).toNumber()).toBe(1);
+    expect(
+      new TinyFloat(new TinyFloat("12345678901234567890")).toNumber()
+    ).toBe(12345678901234567890);
+    expect(new TinyFloat(new TinyFloat("0.1")).toNumber()).toBe(0.1);
+    expect(new TinyFloat(new TinyFloat("10.001234")).toNumber()).toBe(
+      10.001234
+    );
+    expect(
+      new TinyFloat(new TinyFloat("9876543210.123456789")).toNumber()
+    ).toBe(9876543210.123456789);
+  });
+
   it("rounds numbers", () => {
     expect(new TinyFloat("0.123456789", 8).toNumber()).toBe(0.12345679);
     expect(new TinyFloat("0.12345678901234567").toNumber()).toBe(
@@ -139,6 +154,11 @@ describe("TinyFloat", () => {
           .toNumber()
       ).toBe(0.0035);
     });
+
+    it("allows to pass a number as a string", () => {
+      expect(new TinyFloat("0.1").add("0.2").toNumber()).toBe(0.3);
+      expect(new TinyFloat("-0.1").add("0.2").toNumber()).toBe(0.1);
+    });
   });
 
   describe("sub", () => {
@@ -166,6 +186,11 @@ describe("TinyFloat", () => {
           .sub(new TinyFloat("-0.123456789", 1))
           .toNumber()
       ).toBe(0.24);
+    });
+
+    it("allows to pass a number as a string", () => {
+      expect(new TinyFloat("0.1").sub("0.2").toNumber()).toBe(-0.1);
+      expect(new TinyFloat("-0.1").sub("0.2").toNumber()).toBe(-0.3);
     });
   });
 
@@ -198,6 +223,11 @@ describe("TinyFloat", () => {
           .toNumber()
       ).toBe(-0.015);
     });
+
+    it("allows to pass a number as a string", () => {
+      expect(new TinyFloat("6").mul("2").toNumber()).toBe(12);
+      expect(new TinyFloat("0.6").mul("0.2").toNumber()).toBe(0.12);
+    });
   });
 
   describe("div", () => {
@@ -222,6 +252,11 @@ describe("TinyFloat", () => {
           .div(new TinyFloat("-0.123456789", 1))
           .toNumber()
       ).toBe(-1.028);
+    });
+
+    it("allows to pass a number as a string", () => {
+      expect(new TinyFloat("6").div("2").toNumber()).toBe(3);
+      expect(new TinyFloat("0.6").div("0.2").toNumber()).toBe(3);
     });
   });
 
@@ -254,6 +289,11 @@ describe("TinyFloat", () => {
           .mod(new TinyFloat("-0.123456789", 1))
           .toNumber()
       ).toBe(0.003);
+    });
+
+    it("allows to pass a number as a string", () => {
+      expect(new TinyFloat("6").mod("2").toNumber()).toBe(0);
+      expect(new TinyFloat("6.6").mod("2").toNumber()).toBe(0.6);
     });
   });
 
