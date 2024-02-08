@@ -16,7 +16,13 @@ npm install tinyfloat --save
 
 ## Usage
 
-TODO
+The library exports the `TinyFloat` class, which you can use to create instances of decimal numbers:
+
+```ts
+import { TinyFloat } from "tinyfloat";
+
+const a = new TinyFloat(0.1);
+```
 
 ## Changelog
 
