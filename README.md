@@ -45,6 +45,14 @@ The `TinyFloat` class has basic arithmetic methods:
 - `div` - divides two numbers
 - `mod` - returns the remainder of the division
 
+All methods accept both strings and TinyFloat instances:
+
+```ts
+new TinyFloat("0.1").add(new TinyFloat("0.2")).toNumber();
+// Or pass a string:
+new TinyFloat("0.1").add("0.2").toNumber();
+```
+
 To convert a `TinyFloat` instance to a number, use the `toNumber` method:
 
 ```ts
@@ -60,6 +68,19 @@ new TinyFloat("0.1").add("0.2").toString();
 ```
 
 The method pads the number with zeros to the set precision (default is 16).
+
+Both `toString` and `toNumber` accept custom precision, effectively rounding the number to the given number of digits after the decimal point:
+
+```ts
+const tf = new TinyFloat("1").div("1.5");
+//=> 0.6666666666666667⁠​​​​​​
+
+tf.toString(2);
+//=> "0.67"
+
+tf.toNumber(0);
+//=> 1
+```
 
 ## Changelog
 
