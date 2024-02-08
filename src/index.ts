@@ -42,18 +42,33 @@ export class TinyFloat {
 
   /**
    * Returns the number as a string. It keeps the zero padding according to
-   * the precision.
+   * the precision settings.
    *
    * @returns The number string.
    */
   toString(): string {
-    const str = (this.int < 0 ? -this.int : this.int).toString();
-    const point = str.length - this.precision.digits;
+    const absInt = this.int < 0 ? -this.int : this.int;
+
+    const paddedPow = 10n ** BigInt(this.digits);
+    const paddingPow = 10n ** BigInt(this.precision.padding);
+
+    const intPart = absInt / paddedPow;
+    const paddedFloatPart = absInt % paddedPow;
+
+    const halfPadding = 5n * 10n ** BigInt(this.precision.padding - 1);
+    const rounding =
+      paddedFloatPart % paddingPow >= halfPadding ? paddingPow : 0n;
+
+    const floatPart = (paddedFloatPart + rounding) / paddingPow;
+    const floatPartStr = floatPart.toString();
+
     return (
       (this.int < 0 ? "-" : "") +
-      (point > 0
-        ? str.slice(0, point) + "." + str.slice(point)
-        : "0." + "0".repeat(Math.abs(point)) + str.slice(0))
+      intPart.toString() +
+      "." +
+      floatPartStr
+        .padStart(this.precision.digits, "0")
+        .slice(0, this.precision.digits)
     );
   }
 
@@ -156,10 +171,14 @@ export class TinyFloat {
 
     const tf = new TinyFloat();
     const pow = BigInt(
-      10 ** Math.abs(this.precision.digits - normalizedPrecision.digits)
+      10 **
+        Math.abs(
+          this.digits -
+            (normalizedPrecision.digits + normalizedPrecision.padding)
+        )
     );
     const int =
-      this.precision.digits > normalizedPrecision.digits
+      this.digits > normalizedPrecision.digits + normalizedPrecision.padding
         ? this.int / pow
         : this.int * pow;
     tf.set(int, normalizedPrecision);
@@ -180,6 +199,16 @@ export class TinyFloat {
   }
 
   /**
+   * Returns the number of digits after decimal point to keep. It includes the
+   * precision and rounding padding.
+   *
+   * @private
+   */
+  private get digits(): number {
+    return this.precision.digits + this.precision.padding;
+  }
+
+  /**
    * Parses the number string to BigInt.
    *
    * @param str - The number string
@@ -190,14 +219,15 @@ export class TinyFloat {
    * @private
    */
   private static parse(str: string, precision: TinyFloatPrecision): bigint {
+    const digits = precision.digits + precision.padding;
     const point = str.indexOf(".");
     if (point === -1) {
-      return BigInt(str + "0".repeat(precision.digits));
+      return BigInt(str + "0".repeat(digits));
     } else {
       const intPart = str.slice(0, point);
-      const floatPart = str.slice(point + 1, point + 1 + precision.digits);
+      const floatPart = str.slice(point + 1, point + 1 + digits);
       return BigInt(
-        intPart + floatPart + "0".repeat(precision.digits - floatPart.length)
+        intPart + floatPart + "0".repeat(digits - floatPart.length)
       );
     }
   }
