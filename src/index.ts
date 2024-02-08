@@ -1,7 +1,9 @@
 /**
- * A arbitrary-precision decimal class that uses BigInt to store the number.
- * The implementation considers the precision as the number of digits after
- * decimal point to keep. It uses trunc method to round the number.
+ * A decimal class that uses BigInt to store the number.
+ *
+ * In the implementation, the precision is the number of digits after
+ * the decimal point to keep. It adds one digit to handle rounding. The number
+ * is rounded using the round half-up method.
  */
 export class TinyFloat {
   /**
