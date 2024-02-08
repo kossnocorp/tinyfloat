@@ -56,7 +56,8 @@ export class TinyFloat {
 
     const pow = 10n ** BigInt(precisionToUse + 1);
     const paddedFloatPart = absInt % pow;
-    const rounding = paddedFloatPart % 10n >= 5n ? 10n : 0n;
+    const rounding =
+      paddedFloatPart % 10n >= 5n + (int < 0 ? 1n : 0n) ? 10n : 0n;
     const adjustedInt = absInt + rounding;
     const intPart = adjustedInt / pow;
     const floatPart = adjustedInt % pow;

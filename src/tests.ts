@@ -48,6 +48,10 @@ describe("TinyFloat", () => {
     expect(new TinyFloat("-0.987654321", 0).toNumber()).toBe(-1.0);
     expect(new TinyFloat("-0.987654321", 1).toNumber()).toBe(-1);
     expect(new TinyFloat("-0.987654321", 2).toNumber()).toBe(-0.99);
+    expect(new TinyFloat("0.7", 0).toNumber()).toBe(1);
+    expect(new TinyFloat("-0.7", 0).toNumber()).toBe(-1);
+    expect(new TinyFloat("0.5", 0).toNumber()).toBe(1);
+    expect(new TinyFloat("-0.5", 0).toNumber()).toBe(-0);
     expect(new TinyFloat("0.07", 1).toNumber()).toBe(0.1);
     expect(new TinyFloat("-0.07", 1).toNumber()).toBe(-0.1);
     expect(new TinyFloat("0.12345678901234567").toNumber()).toBe(
@@ -84,7 +88,7 @@ describe("TinyFloat", () => {
     expect(new TinyFloat("-0.123456789", 1).toNumber()).toBe(-0.1);
     expect(new TinyFloat("-0.1", 3).toNumber()).toBe(-0.1);
     expect(new TinyFloat("-1").toNumber()).toBe(-1);
-    expect(new TinyFloat("-1.2345", 3).toNumber()).toBe(-1.235);
+    expect(new TinyFloat("-1.2346", 3).toNumber()).toBe(-1.235);
     expect(new TinyFloat("-321.123456789").toNumber()).toBe(-321.123456789);
     expect(new TinyFloat("-321.123456789", 5).toNumber()).toBe(-321.12346);
   });
