@@ -47,6 +47,12 @@ describe("TinyFloat", () => {
     expect(new TinyFloat("-321.123456789", 5).toNumber()).toBe(-321.12345);
   });
 
+  it("rounds numbers", () => {
+    expect(new TinyFloat("0.123456789", 8).toNumber()).toBe(0.12345679);
+    expect(new TinyFloat("0.1234567894").toNumber()).toBe(0.123456789);
+    expect(new TinyFloat("0.1234567896").toNumber()).toBe(0.12345679);
+  });
+
   describe("toString", () => {
     it("returns the number as a string", () => {
       expect(new TinyFloat("0").toString()).toBe("0.000000000");
