@@ -9,7 +9,7 @@ export class TinyFloat {
   /**
    * The default precision.
    */
-  static defaultPrecision = 16;
+  static readonly defaultPrecision = 16;
 
   /**
    * The BigInt representation of the number. It's multiplied by 10^precision.
@@ -45,34 +45,42 @@ export class TinyFloat {
    * Returns the number as a string. It keeps the zero padding according to
    * the precision settings.
    *
+   * @param precision - The precision to use
+   *
    * @returns The number string.
    */
-  toString(): string {
-    const absInt = this.int < 0 ? -this.int : this.int;
+  toString(precision?: number | undefined): string {
+    const precisionToUse = precision ?? this.precision;
+    const int = this.transpose(precisionToUse);
+    const absInt = int < 0 ? -int : int;
 
-    const paddedPow = 10n ** BigInt(this.precision + 1);
-    const intPart = absInt / paddedPow;
-    const paddedFloatPart = absInt % paddedPow;
-
+    const pow = 10n ** BigInt(precisionToUse + 1);
+    const paddedFloatPart = absInt % pow;
     const rounding = paddedFloatPart % 10n >= 5n ? 10n : 0n;
-    const floatPart = (paddedFloatPart + rounding) / 10n;
-    const floatPartStr = floatPart.toString();
+    const adjustedInt = absInt + rounding;
+    const intPart = adjustedInt / pow;
+    const floatPart = adjustedInt % pow;
 
     return (
-      (this.int < 0 ? "-" : "") +
+      (int < 0 ? "-" : "") +
       intPart.toString() +
       "." +
-      floatPartStr.padStart(this.precision, "0").slice(0, this.precision)
+      floatPart
+        .toString()
+        .padStart(precisionToUse + 1, "0")
+        .slice(0, precisionToUse)
     );
   }
 
   /**
    * Returns the number type.
    *
+   * @param precision - The precision to use
+   *
    * @returns The number
    */
-  toNumber(): number {
-    return parseFloat(this.toString());
+  toNumber(precision?: number | undefined): number {
+    return parseFloat(this.toString(precision));
   }
 
   /**
@@ -145,11 +153,7 @@ export class TinyFloat {
    */
   withPresicion(precision: number): TinyFloat {
     if (this.precision === precision) return this;
-    const tf = new TinyFloat();
-    const pow = BigInt(10 ** Math.abs(this.precision - precision));
-    const int = this.precision > precision ? this.int / pow : this.int * pow;
-    tf.set(int, precision);
-    return tf;
+    return TinyFloat.fromBigInt(this.transpose(precision), precision);
   }
 
   /**
@@ -178,6 +182,19 @@ export class TinyFloat {
     return tf instanceof TinyFloat
       ? tf.withPresicion(this.precision).int
       : TinyFloat.parse(tf, this.precision);
+  }
+
+  /**
+   * Transposes the BigInt representation to given precision.
+   *
+   * @param precision - The precision to transpose to
+   *
+   * @returns Transposed BigInt representation
+   */
+  private transpose(precision: number) {
+    if (precision === this.precision) return this.int;
+    const pow = BigInt(10 ** Math.abs(this.precision - precision));
+    return this.precision > precision ? this.int / pow : this.int * pow;
   }
 
   /**

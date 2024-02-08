@@ -40,11 +40,16 @@ describe("TinyFloat", () => {
 
   it("rounds numbers", () => {
     expect(new TinyFloat("0.987654321", 0).toNumber()).toBe(1.0);
-    expect(new TinyFloat("0.987654321", 1).toNumber()).toBe(0.9);
+    expect(new TinyFloat("0.987654321", 1).toNumber()).toBe(1.0);
     expect(new TinyFloat("0.987654321", 2).toNumber()).toBe(0.99);
     expect(new TinyFloat("0.987654321", 3).toNumber()).toBe(0.988);
     expect(new TinyFloat("0.987654321", 5).toNumber()).toBe(0.98765);
     expect(new TinyFloat("0.123456789", 8).toNumber()).toBe(0.12345679);
+    expect(new TinyFloat("-0.987654321", 0).toNumber()).toBe(-1.0);
+    expect(new TinyFloat("-0.987654321", 1).toNumber()).toBe(-1);
+    expect(new TinyFloat("-0.987654321", 2).toNumber()).toBe(-0.99);
+    expect(new TinyFloat("0.07", 1).toNumber()).toBe(0.1);
+    expect(new TinyFloat("-0.07", 1).toNumber()).toBe(-0.1);
     expect(new TinyFloat("0.12345678901234567").toNumber()).toBe(
       0.1234567890123457
     );
@@ -53,7 +58,7 @@ describe("TinyFloat", () => {
     );
   });
 
-  it.skip("has default precision corresponding to the number behavior", () => {
+  it("has default precision corresponding to the number behavior", () => {
     expect(new TinyFloat("1.1").div(new TinyFloat("1.3")).toNumber()).toBe(
       1.1 / 1.3
     );
@@ -134,6 +139,13 @@ describe("TinyFloat", () => {
       );
       expect(new TinyFloat("-0.123456789", 1).toNumber()).toBe(-0.1);
     });
+
+    it("allows to specify the precision", () => {
+      expect(new TinyFloat("0.987654321").toNumber(1)).toBe(1.0);
+      expect(new TinyFloat("0.987654321").toNumber(2)).toBe(0.99);
+      expect(new TinyFloat("0.987654321").toNumber(3)).toBe(0.988);
+      expect(new TinyFloat("0.987654321").toNumber(5)).toBe(0.98765);
+    });
   });
 
   describe("add", () => {
@@ -186,7 +198,7 @@ describe("TinyFloat", () => {
       );
     });
 
-    it.only("uses the precision of the first number", () => {
+    it("uses the precision of the first number", () => {
       expect(
         new TinyFloat("0.123456789", 1).sub(new TinyFloat("0.19")).toNumber()
       ).toBe(-0.1);
