@@ -39,6 +39,11 @@ describe("TinyFloat", () => {
   });
 
   it("rounds numbers", () => {
+    expect(new TinyFloat("0.987654321", 0).toNumber()).toBe(1.0);
+    expect(new TinyFloat("0.987654321", 1).toNumber()).toBe(0.9);
+    expect(new TinyFloat("0.987654321", 2).toNumber()).toBe(0.99);
+    expect(new TinyFloat("0.987654321", 3).toNumber()).toBe(0.988);
+    expect(new TinyFloat("0.987654321", 5).toNumber()).toBe(0.98765);
     expect(new TinyFloat("0.123456789", 8).toNumber()).toBe(0.12345679);
     expect(new TinyFloat("0.12345678901234567").toNumber()).toBe(
       0.1234567890123457
@@ -103,6 +108,13 @@ describe("TinyFloat", () => {
       expect(new TinyFloat("10.00000000000000001111").toString()).toBe(
         "10.0000000000000000"
       );
+    });
+
+    it("allows to specify the precision", () => {
+      expect(new TinyFloat("0.987654321").toString(1)).toBe("1.0");
+      expect(new TinyFloat("0.987654321").toString(2)).toBe("0.99");
+      expect(new TinyFloat("0.987654321").toString(3)).toBe("0.988");
+      expect(new TinyFloat("0.987654321").toString(5)).toBe("0.98765");
     });
   });
 
@@ -174,7 +186,7 @@ describe("TinyFloat", () => {
       );
     });
 
-    it("uses the precision of the first number", () => {
+    it.only("uses the precision of the first number", () => {
       expect(
         new TinyFloat("0.123456789", 1).sub(new TinyFloat("0.19")).toNumber()
       ).toBe(-0.1);
