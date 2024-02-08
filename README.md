@@ -1,5 +1,7 @@
 # TinyFloat
 
+A tiny decimal type for JavaScript.
+
 TODO
 
 ## Installation

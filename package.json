@@ -1,7 +1,7 @@
 {
   "name": "tinyfloat",
   "version": "0.1.0",
-  "description": "A tiny arbitrary-precision decimal type for JavaScript",
+  "description": "A tiny decimal type for JavaScript",
   "sideEffects": false,
   "browser": "./index",
   "main": "./index.js",
