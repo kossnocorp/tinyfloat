@@ -109,7 +109,7 @@ describe("TinyFloat", () => {
     });
   });
 
-  describe.skip("add", () => {
+  describe("add", () => {
     it("adds two numbers", () => {
       expect(new TinyFloat("0.1").add(new TinyFloat("0.2")).toNumber()).toBe(
         0.3
@@ -132,16 +132,16 @@ describe("TinyFloat", () => {
         new TinyFloat("0.123456789", 2)
           .add(new TinyFloat("0.123456789"))
           .toNumber()
-      ).toBe(0.24);
+      ).toBe(0.25);
       expect(
-        new TinyFloat("0.123456789", 2)
+        new TinyFloat("0.123456789", 4)
           .add(new TinyFloat("-0.123456789", 1))
           .toNumber()
-      ).toBe(0.02);
+      ).toBe(0.0035);
     });
   });
 
-  describe.skip("sub", () => {
+  describe("sub", () => {
     it("subtracts two numbers", () => {
       expect(new TinyFloat("0.1").sub(new TinyFloat("0.2")).toNumber()).toBe(
         -0.1
@@ -157,7 +157,7 @@ describe("TinyFloat", () => {
     it("uses the precision of the first number", () => {
       expect(
         new TinyFloat("0.123456789", 1).sub(new TinyFloat("0.19")).toNumber()
-      ).toBe(0);
+      ).toBe(-0.1);
       expect(
         new TinyFloat("0.123456789", 2).sub(new TinyFloat("0.19")).toNumber()
       ).toBe(-0.07);
@@ -165,11 +165,11 @@ describe("TinyFloat", () => {
         new TinyFloat("0.123456789", 2)
           .sub(new TinyFloat("-0.123456789", 1))
           .toNumber()
-      ).toBe(0.22);
+      ).toBe(0.24);
     });
   });
 
-  describe.skip("mul", () => {
+  describe("mul", () => {
     it("multiplies two numbers", () => {
       expect(new TinyFloat("6").mul(new TinyFloat("2")).toNumber()).toBe(12);
       expect(new TinyFloat("0.6").mul(new TinyFloat("0.2")).toNumber()).toBe(
@@ -196,18 +196,18 @@ describe("TinyFloat", () => {
         new TinyFloat("0.123456789", 3)
           .mul(new TinyFloat("-0.123456789", 1))
           .toNumber()
-      ).toBe(-0.012);
+      ).toBe(-0.015);
     });
   });
 
-  describe.skip("div", () => {
+  describe("div", () => {
     it("divides two numbers", () => {
       expect(new TinyFloat("6").div(new TinyFloat("2")).toNumber()).toBe(3);
       expect(
         new TinyFloat("1.23456789").div(new TinyFloat("0.2")).toNumber()
       ).toBe(6.17283945);
       expect(new TinyFloat("6.2").div(new TinyFloat("-2.1")).toNumber()).toBe(
-        -2.952380952380952
+        -2.9523809523809526
       );
     });
 
@@ -221,11 +221,11 @@ describe("TinyFloat", () => {
         new TinyFloat("0.123456789", 3)
           .div(new TinyFloat("-0.123456789", 1))
           .toNumber()
-      ).toBe(-1.23);
+      ).toBe(-1.028);
     });
   });
 
-  describe.skip("mod", () => {
+  describe("mod", () => {
     it("returns the remainder of the division", () => {
       expect(new TinyFloat("6").mod(new TinyFloat("2")).toNumber()).toBe(0);
       expect(new TinyFloat("6.6").mod(new TinyFloat("2")).toNumber()).toBe(0.6);
@@ -253,7 +253,7 @@ describe("TinyFloat", () => {
         new TinyFloat("0.123456789", 3)
           .mod(new TinyFloat("-0.123456789", 1))
           .toNumber()
-      ).toBe(0.023);
+      ).toBe(0.003);
     });
   });
 

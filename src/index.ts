@@ -1,20 +1,14 @@
 /**
- * The {@link TinyFloat} class precision settings.
- */
-export interface TinyFloatPrecision {
-  /** The the number of digits after decimal point. */
-  digits: number;
-  /** The rounding padding. Defines how much extra precision is saved to
-   * round the number. */
-  padding: number;
-}
-
-/**
  * A arbitrary-precision decimal class that uses BigInt to store the number.
  * The implementation considers the precision as the number of digits after
  * decimal point to keep. It uses trunc method to round the number.
  */
 export class TinyFloat {
+  /**
+   * The default precision.
+   */
+
+  static defaultPrecision = 16;
   /**
    * The BigInt representation of the number. It's multiplied by 10^precision.
    *
@@ -27,7 +21,7 @@ export class TinyFloat {
    *
    * @private
    */
-  private precision: TinyFloatPrecision;
+  private precision: number;
 
   /**
    * Creates a TinyFloat instance from a string and given precision.
@@ -35,8 +29,8 @@ export class TinyFloat {
    * @param str - The number string
    * @param precision - The number of digits after decimal point to keep
    */
-  constructor(str?: string, precision?: number | Partial<TinyFloatPrecision>) {
-    this.precision = TinyFloat.normalizePrecision(precision);
+  constructor(str?: string, precision?: number) {
+    this.precision = precision ?? TinyFloat.defaultPrecision;
     this.int = str ? TinyFloat.parse(str, this.precision) : BigInt(0);
   }
 
@@ -49,26 +43,19 @@ export class TinyFloat {
   toString(): string {
     const absInt = this.int < 0 ? -this.int : this.int;
 
-    const paddedPow = 10n ** BigInt(this.digits);
-    const paddingPow = 10n ** BigInt(this.precision.padding);
-
+    const paddedPow = 10n ** BigInt(this.precision + 1);
     const intPart = absInt / paddedPow;
     const paddedFloatPart = absInt % paddedPow;
 
-    const halfPadding = 5n * 10n ** BigInt(this.precision.padding - 1);
-    const rounding =
-      paddedFloatPart % paddingPow >= halfPadding ? paddingPow : 0n;
-
-    const floatPart = (paddedFloatPart + rounding) / paddingPow;
+    const rounding = paddedFloatPart % 10n >= 5n ? 10n : 0n;
+    const floatPart = (paddedFloatPart + rounding) / 10n;
     const floatPartStr = floatPart.toString();
 
     return (
       (this.int < 0 ? "-" : "") +
       intPart.toString() +
       "." +
-      floatPartStr
-        .padStart(this.precision.digits, "0")
-        .slice(0, this.precision.digits)
+      floatPartStr.padStart(this.precision, "0").slice(0, this.precision)
     );
   }
 
@@ -118,7 +105,7 @@ export class TinyFloat {
     const mul = new TinyFloat();
     mul.set(
       (this.int * tf.withPresicion(this.precision).int) /
-        BigInt(10 ** this.precision.digits),
+        BigInt(10 ** (this.precision + 1)),
       this.precision
     );
     return mul;
@@ -134,7 +121,7 @@ export class TinyFloat {
   div(tf: TinyFloat): TinyFloat {
     const div = new TinyFloat();
     div.set(
-      (this.int * BigInt(10 ** this.precision.digits)) /
+      (this.int * BigInt(10 ** (this.precision + 1))) /
         tf.withPresicion(this.precision).int,
       this.precision
     );
@@ -161,27 +148,12 @@ export class TinyFloat {
    *
    * @returns A new TinyFloat with the new precision
    */
-  withPresicion(precision: number | TinyFloatPrecision): TinyFloat {
-    const normalizedPrecision = TinyFloat.normalizePrecision(precision);
-    if (
-      this.precision.digits === normalizedPrecision.digits &&
-      this.precision.padding === normalizedPrecision.padding
-    )
-      return this;
-
+  withPresicion(precision: number): TinyFloat {
+    if (this.precision === precision) return this;
     const tf = new TinyFloat();
-    const pow = BigInt(
-      10 **
-        Math.abs(
-          this.digits -
-            (normalizedPrecision.digits + normalizedPrecision.padding)
-        )
-    );
-    const int =
-      this.digits > normalizedPrecision.digits + normalizedPrecision.padding
-        ? this.int / pow
-        : this.int * pow;
-    tf.set(int, normalizedPrecision);
+    const pow = BigInt(10 ** Math.abs(this.precision - precision));
+    const int = this.precision > precision ? this.int / pow : this.int * pow;
+    tf.set(int, precision);
     return tf;
   }
 
@@ -193,33 +165,23 @@ export class TinyFloat {
    *
    * @private
    */
-  private set(int: bigint, precision: TinyFloatPrecision): void {
+  private set(int: bigint, precision: number): void {
     this.int = int;
     this.precision = precision;
-  }
-
-  /**
-   * Returns the number of digits after decimal point to keep. It includes the
-   * precision and rounding padding.
-   *
-   * @private
-   */
-  private get digits(): number {
-    return this.precision.digits + this.precision.padding;
   }
 
   /**
    * Parses the number string to BigInt.
    *
    * @param str - The number string
-   * @param precision - The precision settings
+   * @param precision - The precision
    *
    * @returns The BigInt representation of the number
    *
    * @private
    */
-  private static parse(str: string, precision: TinyFloatPrecision): bigint {
-    const digits = precision.digits + precision.padding;
+  private static parse(str: string, precision: number): bigint {
+    const digits = precision + 1;
     const point = str.indexOf(".");
     if (point === -1) {
       return BigInt(str + "0".repeat(digits));
@@ -230,21 +192,5 @@ export class TinyFloat {
         intPart + floatPart + "0".repeat(digits - floatPart.length)
       );
     }
-  }
-
-  /**
-   * Normalizes the precision settings.
-   *
-   * @param precision - The precision settings, number or undefined
-   *
-   * @returns The normalized precision settings
-   */
-  private static normalizePrecision(
-    precision: number | Partial<TinyFloatPrecision> | undefined
-  ): TinyFloatPrecision {
-    const digits =
-      typeof precision === "number" ? precision : precision?.digits ?? 16;
-    const padding = typeof precision !== "number" ? precision?.padding ?? 3 : 3;
-    return { digits, padding };
   }
 }
