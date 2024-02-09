@@ -37,7 +37,7 @@ export class TinyFloat {
       this.int = tf.int;
     } else {
       this.precision = precision ?? TinyFloat.defaultPrecision;
-      this.int = tf ? TinyFloat.parse(tf, this.precision) : BigInt(0);
+      this.int = tf ? this.parse(tf) : BigInt(0);
     }
   }
 
@@ -54,7 +54,7 @@ export class TinyFloat {
     const int = this.transpose(precisionToUse);
     const absInt = int < 0 ? -int : int;
 
-    const pow = 10n ** BigInt(precisionToUse + 1);
+    const pow = BigInt(10 ** (precisionToUse + 1));
     const paddedFloatPart = absInt % pow;
     const rounding =
       paddedFloatPart % 10n >= 5n + (int < 0 ? 1n : 0n) ? 10n : 0n;
@@ -92,7 +92,7 @@ export class TinyFloat {
    * @returns Sum of the two numbers
    */
   add(tf: TinyFloat | string | number): TinyFloat {
-    return TinyFloat.fromBigInt(this.int + this.argument(tf), this.precision);
+    return this.fromBigInt(this.int + this.argument(tf));
   }
 
   /**
@@ -103,7 +103,7 @@ export class TinyFloat {
    * @returns Difference of the two numbers
    */
   sub(tf: TinyFloat | string | number): TinyFloat {
-    return TinyFloat.fromBigInt(this.int - this.argument(tf), this.precision);
+    return this.fromBigInt(this.int - this.argument(tf));
   }
 
   /**
@@ -114,9 +114,8 @@ export class TinyFloat {
    * @returns Product of the two numbers
    */
   mul(tf: TinyFloat | string | number): TinyFloat {
-    return TinyFloat.fromBigInt(
-      (this.int * this.argument(tf)) / BigInt(10 ** (this.precision + 1)),
-      this.precision
+    return this.fromBigInt(
+      (this.int * this.argument(tf)) / BigInt(10 ** (this.precision + 1))
     );
   }
 
@@ -128,9 +127,8 @@ export class TinyFloat {
    * @returns Quotient of the two numbers
    */
   div(tf: TinyFloat | string | number): TinyFloat {
-    return TinyFloat.fromBigInt(
-      (this.int * BigInt(10 ** (this.precision + 1))) / this.argument(tf),
-      this.precision
+    return this.fromBigInt(
+      (this.int * BigInt(10 ** (this.precision + 1))) / this.argument(tf)
     );
   }
 
@@ -142,7 +140,7 @@ export class TinyFloat {
    * @returns The remainder of the division
    */
   mod(tf: TinyFloat | string | number): TinyFloat {
-    return TinyFloat.fromBigInt(this.int % this.argument(tf), this.precision);
+    return this.fromBigInt(this.int % this.argument(tf));
   }
 
   /**
@@ -154,20 +152,7 @@ export class TinyFloat {
    */
   withPresicion(precision: number): TinyFloat {
     if (this.precision === precision) return this;
-    return TinyFloat.fromBigInt(this.transpose(precision), precision);
-  }
-
-  /**
-   * Mutates the TinyFloat instance with the new BigInt and precision.
-   *
-   * @param int - The BigInt to set
-   * @param precision - The precision to set
-   *
-   * @private
-   */
-  private set(int: bigint, precision: number): void {
-    this.int = int;
-    this.precision = precision;
+    return this.fromBigInt(this.transpose(precision), precision);
   }
 
   /**
@@ -182,7 +167,7 @@ export class TinyFloat {
   private argument(tf: TinyFloat | string | number): bigint {
     return tf instanceof TinyFloat
       ? tf.withPresicion(this.precision).int
-      : TinyFloat.parse(tf, this.precision);
+      : this.parse(tf);
   }
 
   /**
@@ -208,9 +193,9 @@ export class TinyFloat {
    *
    * @private
    */
-  private static parse(num: string | number, precision: number): bigint {
+  private parse(num: string | number): bigint {
     const str = num.toString();
-    const digits = precision + 1;
+    const digits = this.precision + 1;
     const point = str.indexOf(".");
     if (point === -1) {
       return BigInt(str + "0".repeat(digits));
@@ -233,9 +218,10 @@ export class TinyFloat {
    *
    * @private
    */
-  private static fromBigInt(int: bigint, precision: number): TinyFloat {
+  private fromBigInt(int: bigint, precision?: number): TinyFloat {
     const tf = new TinyFloat();
-    tf.set(int, precision);
+    tf.int = int;
+    tf.precision = precision ?? this.precision;
     return tf;
   }
 }
