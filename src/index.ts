@@ -7,11 +7,6 @@
  */
 export class TinyFloat {
   /**
-   * The default precision.
-   */
-  static readonly defaultPrecision = 16;
-
-  /**
    * The BigInt representation of the number. It's multiplied by 10^precision.
    *
    * @private
@@ -32,13 +27,9 @@ export class TinyFloat {
    * @param precision - The number of digits after decimal point to keep
    */
   constructor(tf?: TinyFloat | string | number, precision?: number) {
-    if (tf instanceof TinyFloat) {
-      this.precision = tf.precision;
-      this.int = tf.int;
-    } else {
-      this.precision = precision ?? TinyFloat.defaultPrecision;
-      this.int = tf ? this.parse(tf) : BigInt(0);
-    }
+    const isTF = tf instanceof TinyFloat;
+    this.precision = isTF ? tf.precision : precision ?? 16;
+    this.int = isTF ? tf.int : tf ? this.parse(tf) : BigInt(0);
   }
 
   /**
@@ -53,20 +44,20 @@ export class TinyFloat {
     const precisionToUse = precision ?? this.precision;
     const int = this.transpose(precisionToUse);
     const absInt = int < 0 ? -int : int;
-
     const pow = BigInt(10 ** (precisionToUse + 1));
     const paddedFloatPart = absInt % pow;
     const rounding =
       paddedFloatPart % 10n >= 5n + (int < 0 ? 1n : 0n) ? 10n : 0n;
-    const adjustedInt = absInt + rounding;
-    const intPart = adjustedInt / pow;
-    const floatPart = adjustedInt % pow;
+    const roundedInt = absInt + rounding;
 
     return (
+      // Sign
       (int < 0 ? "-" : "") +
-      intPart.toString() +
+      // Int part
+      (roundedInt / pow).toString() +
       "." +
-      floatPart
+      // Float part
+      (roundedInt % pow)
         .toString()
         .padStart(precisionToUse + 1, "0")
         .slice(0, precisionToUse)
