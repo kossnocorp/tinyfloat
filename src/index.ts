@@ -169,7 +169,6 @@ export class TinyFloat {
    * @returns Transposed BigInt representation
    */
   private transpose(precision: number) {
-    if (precision === this.precision) return this.int;
     const pow = BigInt(10 ** Math.abs(this.precision - precision));
     return this.precision > precision ? this.int / pow : this.int * pow;
   }
@@ -191,10 +190,9 @@ export class TinyFloat {
     if (point === -1) {
       return BigInt(str + "0".repeat(digits));
     } else {
-      const intPart = str.slice(0, point);
       const floatPart = str.slice(point + 1, point + 1 + digits);
       return BigInt(
-        intPart + floatPart + "0".repeat(digits - floatPart.length)
+        str.slice(0, point) + floatPart + "0".repeat(digits - floatPart.length)
       );
     }
   }
