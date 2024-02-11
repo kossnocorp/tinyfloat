@@ -43,7 +43,10 @@
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-typescript": "^7.23.3",
     "@size-limit/preset-small-lib": "^11.0.2",
+    "@types/decimal.js": "^7.4.0",
     "babel-plugin-add-import-extension": "^1.6.0",
+    "benny": "^3.7.1",
+    "decimal.js": "^10.4.3",
     "size-limit": "^11.0.2",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2"
