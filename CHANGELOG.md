@@ -8,6 +8,12 @@ This change log follows the format documented in [Keep a CHANGELOG].
 [semantic versioning]: http://semver.org/
 [keep a changelog]: http://keepachangelog.com/
 
+## v1.0.0 - 2024-02-15
+
+### Changed
+
+- **BREAKING**: Fixed typo `withPresicion` -> `withPrecision`.
+
 ## v0.2.0 - 2024-02-11
 
 ### Changed
