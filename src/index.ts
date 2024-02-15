@@ -141,7 +141,7 @@ export class TinyFloat {
    *
    * @returns A new TinyFloat with the new precision
    */
-  withPresicion(precision: number): TinyFloat {
+  withPrecision(precision: number): TinyFloat {
     if (this.precision === precision) return this;
     return this.fromBigInt(this.transpose(precision), precision);
   }
@@ -157,7 +157,7 @@ export class TinyFloat {
    */
   private argument(tf: TinyFloat | string | number): bigint {
     return tf instanceof TinyFloat
-      ? tf.withPresicion(this.precision).int
+      ? tf.withPrecision(this.precision).int
       : this.parse(tf);
   }
 

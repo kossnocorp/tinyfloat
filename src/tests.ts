@@ -364,24 +364,24 @@ describe("TinyFloat", () => {
     });
   });
 
-  describe("withPresicion", () => {
+  describe("withPrecision", () => {
     it("changes the precision", () => {
-      expect(new TinyFloat("0.123456789", 5).withPresicion(3).toNumber()).toBe(
+      expect(new TinyFloat("0.123456789", 5).withPrecision(3).toNumber()).toBe(
         0.123
       );
-      expect(new TinyFloat("0.123456789", 2).withPresicion(3).toNumber()).toBe(
+      expect(new TinyFloat("0.123456789", 2).withPrecision(3).toNumber()).toBe(
         0.123
       );
-      expect(new TinyFloat("-0.123456789", 2).withPresicion(3).toNumber()).toBe(
+      expect(new TinyFloat("-0.123456789", 2).withPrecision(3).toNumber()).toBe(
         -0.123
       );
     });
 
     it("rounds the number", () => {
-      expect(new TinyFloat("0.123456789").withPresicion(5).toNumber()).toBe(
+      expect(new TinyFloat("0.123456789").withPrecision(5).toNumber()).toBe(
         0.12346
       );
-      expect(new TinyFloat("0.123456789").withPresicion(6).toNumber()).toBe(
+      expect(new TinyFloat("0.123456789").withPrecision(6).toNumber()).toBe(
         0.123457
       );
     });
