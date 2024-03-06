@@ -46,6 +46,7 @@
     "@types/decimal.js": "^7.4.0",
     "babel-plugin-add-import-extension": "^1.6.0",
     "benny": "^3.7.1",
+    "currency.js": "^2.0.4",
     "decimal.js": "^10.4.3",
     "size-limit": "^11.0.2",
     "typescript": "^5.3.3",
