@@ -188,7 +188,6 @@ export class TinyFloat {
     // numbers less that 0.000001 are converted to exponential notation, we want to keep the dot notation
     if (typeof num === "number" && num < 0.000001)
       str = num.toLocaleString("en-US", {
-        minimumFractionDigits: 0,
         maximumFractionDigits: this.precision,
       });
     const digits = this.precision + 1;
