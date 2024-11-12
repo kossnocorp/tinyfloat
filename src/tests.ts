@@ -61,7 +61,9 @@ describe("TinyFloat", () => {
     expect(new TinyFloat(new TinyFloat(-0.0000000000000001)).toNumber()).toBe(
       -0.0000000000000001
     );
-    expect(new TinyFloat(new TinyFloat(-10.001234)).toNumber()).toBe(-10.001234);
+    expect(new TinyFloat(new TinyFloat(-10.001234)).toNumber()).toBe(
+      -10.001234
+    );
     expect(new TinyFloat(new TinyFloat(-9876543210.123456789)).toNumber()).toBe(
       -9876543210.123456789
     );

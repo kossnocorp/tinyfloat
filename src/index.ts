@@ -186,9 +186,10 @@ export class TinyFloat {
   private parse(num: string | number): bigint {
     let str = num.toString();
     // numbers less that 0.000001 are converted to exponential notation, we want to keep the dot notation
-    if (typeof num === "number" && num < 0.000001)
+    if (typeof num === "number" && num < 0.000001 && num > -0.000001)
       str = num.toLocaleString("en-US", {
         maximumFractionDigits: this.precision,
+        useGrouping: false,
       });
     const digits = this.precision + 1;
     const point = str.indexOf(".");
