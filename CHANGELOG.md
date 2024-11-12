@@ -8,6 +8,12 @@ This change log follows the format documented in [Keep a CHANGELOG].
 [semantic versioning]: http://semver.org/
 [keep a changelog]: http://keepachangelog.com/
 
+## v1.0.1 - 2024-11-13
+
+### Fixed
+
+- Fixed SyntaxError when used with small numbers #3. Kudos to [@raduflp](https://github.com/raduflp)!
+
 ## v1.0.0 - 2024-02-15
 
 ### Changed
