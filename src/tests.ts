@@ -23,6 +23,13 @@ describe("TinyFloat", () => {
     );
   });
 
+  it("accepts scientific notation", () => {
+    expect(new TinyFloat(0.000000000123456).toNumber()).toBe(0.000000000123456); // 1.23456e-10
+    expect(new TinyFloat(1234560000000000000000).toNumber()).toBe(
+      1234560000000000000000
+    ); // 1.23456e+21
+  });
+
   it("accepts tiny float", () => {
     expect(new TinyFloat(new TinyFloat("0")).toNumber()).toBe(0);
     expect(new TinyFloat(new TinyFloat("1")).toNumber()).toBe(1);
