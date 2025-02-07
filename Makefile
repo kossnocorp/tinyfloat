@@ -1,8 +1,8 @@
 test:
-	@bunx vitest run
+	pnpm exec vitest run
 
 test-watch:
-	@bunx vitest run --watch
+	pnpm exec vitest run --watch
 
 test-types: install-attw build 
 	@cd lib && attw --pack
