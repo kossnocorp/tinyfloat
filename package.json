@@ -1,6 +1,6 @@
 {
   "name": "tinyfloat",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A tiny decimal type for JavaScript",
   "sideEffects": false,
   "browser": "./index",
