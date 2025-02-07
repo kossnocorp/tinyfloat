@@ -1,2 +1,6 @@
+# Base
 node_modules
 lib
+# Nix
+.envrc
+.direnv
