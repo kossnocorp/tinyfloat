@@ -174,9 +174,9 @@ export class TinyFloat {
   }
 
   /**
-   * Parses the number string to BigInt.
+   * Parses the number or its string representation to BigInt.
    *
-   * @param str - The number string
+   * @param num - The number or string representation
    * @param precision - The precision
    *
    * @returns The BigInt representation of the number
@@ -185,22 +185,36 @@ export class TinyFloat {
    */
   private parse(num: string | number): bigint {
     let str = num.toString();
-    // Numbers less that 0.000001 are converted to exponential notation, we\
-    // want to keep the dot notation
-    if (typeof num === "number" && num < 0.000001 && num > -0.000001)
-      str = num.toLocaleString("en-US", {
-        maximumFractionDigits: this.precision,
-        useGrouping: false,
-      });
     const digits = this.precision + 1;
     const point = str.indexOf(".");
-    if (point === -1) {
-      return BigInt(str + "0".repeat(digits));
+
+    const exponentIdx = str.indexOf("e");
+    if (exponentIdx === -1) {
+      if (point === -1) {
+        return BigInt(str + "0".repeat(digits));
+      } else {
+        const floatPart = str.slice(point + 1, point + 1 + digits);
+        return BigInt(
+          str.slice(0, point) +
+            floatPart +
+            "0".repeat(digits - floatPart.length)
+        );
+      }
     } else {
-      const floatPart = str.slice(point + 1, point + 1 + digits);
-      return BigInt(
-        str.slice(0, point) + floatPart + "0".repeat(digits - floatPart.length)
-      );
+      // Scientific notation (typically ≤ 1e-7, ≥ 1e+21)
+      const mantissa = str.slice(0, exponentIdx);
+      const exponent = Number.parseInt(str.slice(exponentIdx + 1));
+
+      if (point === -1) {
+        return BigInt(mantissa + "0".repeat(digits + exponent));
+      } else {
+        const mantissaFloat = mantissa.slice(point + 1);
+        return BigInt(
+          mantissa.slice(0, point) +
+            mantissaFloat +
+            "0".repeat(digits + exponent - mantissaFloat.length)
+        );
+      }
     }
   }
 
