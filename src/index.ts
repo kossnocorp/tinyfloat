@@ -174,7 +174,7 @@ export class TinyFloat {
   }
 
   /**
-   * Parses the number or it's string representation to BigInt.
+   * Parses the number or its string representation to BigInt.
    *
    * @param num - The number or string representation
    * @param precision - The precision
@@ -201,7 +201,7 @@ export class TinyFloat {
         );
       }
     } else {
-      // scientific notation (typically ≤ 1e-7, ≥ 1e+21)
+      // Scientific notation (typically ≤ 1e-7, ≥ 1e+21)
       const mantissa = str.slice(0, exponentIdx);
       const exponent = Number.parseInt(str.slice(exponentIdx + 1));
 
