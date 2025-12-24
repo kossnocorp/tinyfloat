@@ -27,6 +27,14 @@ describe("TinyFloat", () => {
     expect(new TinyFloat(1.23456e-10).toNumber()).toBe(1.23456e-10);
     expect(new TinyFloat(1.23456e21).toNumber()).toBe(1.23456e21);
   });
+  
+  it("handles scientific notation with long mantissas", () => {
+    expect(() => new TinyFloat(1.1234567890123457e-12)).not.toThrow();
+    expect(() => new TinyFloat(-1.1234567890123457e-12)).not.toThrow();
+    expect(() => new TinyFloat(1e-20)).not.toThrow();
+    expect(() => new TinyFloat(1e-15)).not.toThrow();
+    expect(new TinyFloat(1e-20).toNumber()).toBe(0);
+  });
 
   it("accepts tiny float", () => {
     expect(new TinyFloat(new TinyFloat("0")).toNumber()).toBe(0);

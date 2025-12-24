@@ -206,14 +206,21 @@ export class TinyFloat {
       const exponent = Number.parseInt(str.slice(exponentIdx + 1));
 
       if (point === -1) {
-        return BigInt(mantissa + "0".repeat(digits + exponent));
+        const shift = digits + exponent;
+        if (shift >= 0) {
+          return BigInt(mantissa + "0".repeat(shift));
+        } else {
+          return BigInt(mantissa.slice(0, mantissa.length + shift) || "0");
+        }
       } else {
         const mantissaFloat = mantissa.slice(point + 1);
-        return BigInt(
-          mantissa.slice(0, point) +
-            mantissaFloat +
-            "0".repeat(digits + exponent - mantissaFloat.length)
-        );
+        const absCombined = mantissa.slice(0, point) + mantissaFloat;
+        const shift = digits + exponent - mantissaFloat.length;
+        if (shift >= 0) {
+          return BigInt(absCombined + "0".repeat(shift));
+        } else {
+          return BigInt(absCombined.slice(0, absCombined.length + shift) || "0");
+        }
       }
     }
   }
