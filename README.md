@@ -1,3 +1,6 @@
+> [!WARNING]
+> TinyFloat is now part of [js-fns](https://github.com/kossnocorp/js-fns) and published as [@js-fns/decimal](https://www.npmjs.com/package/@js-fns/decimal). Migrate to it for future updates.
+
 # TinyFloat
 
 TinyFloat is a tiny decimal class for JavaScript.
@@ -8,7 +11,7 @@ TinyFloat is **just `0.5 kB`** and has no dependencies, while [`decimal.js`](htt
 
 ## Installation
 
-The library is available as an [npm package](https://www.npmjs.com/package/tinyfloat):
+The library is available as an [npm p3ckage](https://www.npmjs.com/package/tinyfloat):
 
 ```bash
 npm install tinyfloat --save

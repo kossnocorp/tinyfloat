@@ -1,11 +1,25 @@
 {
   "name": "tinyfloat",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A tiny decimal type for JavaScript",
+  "keywords": [
+    "decimal",
+    "float"
+  ],
+  "homepage": "https://github.com/kossnocorp/tinyfloat#readme",
+  "bugs": {
+    "url": "https://github.com/kossnocorp/tinyfloat/issues"
+  },
+  "license": "MIT",
+  "author": "Sasha Koss <koss@nocorp.me>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kossnocorp/tinyfloat.git"
+  },
   "sideEffects": false,
-  "browser": "./index",
   "main": "./index.js",
   "module": "./index.mjs",
+  "browser": "./index",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -22,20 +36,6 @@
   "scripts": {
     "test": "vitest run"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kossnocorp/tinyfloat.git"
-  },
-  "keywords": [
-    "decimal",
-    "float"
-  ],
-  "author": "Sasha Koss <koss@nocorp.me>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/kossnocorp/tinyfloat/issues"
-  },
-  "homepage": "https://github.com/kossnocorp/tinyfloat#readme",
   "devDependencies": {
     "@babel/cli": "^7.23.9",
     "@babel/core": "^7.23.9",
